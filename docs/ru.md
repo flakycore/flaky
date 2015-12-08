@@ -36,8 +36,8 @@ npm test
 
 ## Зависимости
 
-AngularJS 1.4.7 или выше
-AngularJS UI-Router 0.2.15 или выше
+- AngularJS 1.4.7 или выше
+- AngularJS UI-Router 0.2.15 или выше
 
 ## Автор
 
