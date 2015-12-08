@@ -1,6 +1,10 @@
 import angular from 'angular';
 import {Application} from './Application';
 
+/**
+ * Singleton instance
+ * @type {Flaky}
+ */
 let instance = null;
 
 class Flaky {
@@ -29,6 +33,9 @@ class Flaky {
     this._vendors = vendors;
   }
 
+  /**
+   * Bootstrap angularJS application
+   */
   bootstrap() {
     angular.element(document).ready(() => this.doReady());
   }
@@ -57,6 +64,9 @@ class Flaky {
     ]));
   }
 
+  /**
+   * Initialization application methods run and config (analog angular.module functions)
+   */
   initApplication() {
     let injectConfig = [];
     let injectRun = [];
@@ -82,12 +92,18 @@ class Flaky {
     }, injectRun));
   }
 
+  /**
+   * Initialization controllers (AngularJS controller)
+   */
   loadControllers() {
     for (let controller of this._controllers) {
       this._nativeAppModule.controller(controller.name, controller);
     }
   }
 
+  /**
+   * Initialization components (AngularJS directive set "restrict" to element)
+   */
   loadComponents() {
     for (let component of this._components) {
       if (component.$selector) {
@@ -109,6 +125,9 @@ class Flaky {
     }
   }
 
+  /**
+   * Initialization components (AngularJS directive set "restrict" to attribute)
+   */
   loadDirectives() {
     for (let directive of this._directives) {
       if (directive.$selector) {
@@ -129,18 +148,27 @@ class Flaky {
     }
   }
 
+  /**
+   * Initialization components (AngularJS service)
+   */
   loadServices() {
     for (let service of this._services) {
       this._nativeAppModule.service(Flaky.normalizeServiceName(service.name), service);
     }
   }
 
+  /**
+   * Initialization components (AngularJS filter)
+   */
   loadFilters() {
     for (let filter of this._filters) {
       this._nativeAppModule.filter(filter.$name, filter);
     }
   }
 
+  /**
+   * Create module for loading ui-router states
+   */
   createRoutesModule() {
     let routesModule = angular.module(Flaky.normalizeName('routes'));
 
@@ -151,31 +179,63 @@ class Flaky {
     }]);
   }
 
+  /**
+   * Add controller
+   * @param controller {string|function}
+   * @returns {Flaky}
+   */
   addController(controller) {
     this._controllers.push(controller);
     return this;
   }
 
+  /**
+   * Add service
+   * @param service
+   * @returns {Flaky}
+   */
   addService(service) {
     this._services.push(service);
     return this;
   }
 
-  addComponent(provider) {
-    this._components.push(provider);
+  /**
+   * Add component
+   * @param component
+   * @returns {Flaky}
+   */
+  addComponent(component) {
+    this._components.push(component);
     return this;
   }
 
+  /**
+   * Add directive
+   * @param directive
+   * @returns {Flaky}
+   */
   addDirective(directive) {
     this._directives.push(directive);
     return this;
   }
 
-  addFilter(provider) {
-    this._filters.push(provider);
+  /**
+   * Add filter
+   * @param filter
+   * @returns {Flaky}
+   */
+  addFilter(filter) {
+    this._filters.push(filter);
     return this;
   }
 
+  /**
+   * Add route
+   * @param controller {string|function}
+   * @param config {hash}
+   * @param name {string}
+   * @returns {Flaky}
+     */
   addRoute(controller, config, name) {
     if(!angular.isFunction(controller)) {
       if(name === false) {
