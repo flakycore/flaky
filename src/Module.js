@@ -26,14 +26,14 @@ export class Module {
     }
   }
 
-  bootstrap() {
+  load() {
     let modules = [];
 
     for(let module of this._modules) {
-      modules.push(module.bootstrap());
+      modules.push(module.load());
     }
 
-    this._angularModule = angular.module(this._name, modules);
+    this._angularModule = angular.module(this._name, this._vendors.concat(modules));
 
     this.initRunAndConfig();
 
@@ -61,15 +61,15 @@ export class Module {
       injectRun = injectRun.concat(this.constructor.$injectRun);
     }
 
-    this._nativeAppModule.config(Module.createInjectedFunction((...dependencies) => {
+    this._angularModule.config(Module.createInjectedFunction((...dependencies) => {
       if (angular.isFunction(this.config)) {
-        module.config.apply(this, dependencies);
+        this.config.apply(this, dependencies);
       }
     }, injectConfig));
 
-    this._nativeAppModule.run(Module.createInjectedFunction((...dependencies) => {
+    this._angularModule.run(Module.createInjectedFunction((...dependencies) => {
       if (angular.isFunction(this.run)) {
-        module.run.apply(this, dependencies);
+        this.run.apply(this, dependencies);
       }
     }, injectRun));
   }
@@ -228,9 +228,11 @@ export class Module {
   /**
    * Add module
    * @param module {Module}
-     */
+   * @returns {Module}
+   */
   addModule(module) {
     this._modules.push(module);
+    return this;
   }
 
   static normalizeControllerAsName(controllerName) {

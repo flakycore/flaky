@@ -11,7 +11,6 @@
   },
   "directories": {
     "test": "test",
-    "baseURL": "src",
     "packages": "jspm_packages"
   },
   "devDependencies": {
@@ -32,12 +31,11 @@
   },
   "jspm": {
     "directories": {
-      "baseURL": "src",
-      "test": "test",
-      "packages": "jspm_packages"
+      "test": "test"
     },
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.4.8",
+      "angular-mocks": "github:angular/bower-angular-mocks@^1.4.8",
       "angular-ui/ui-router": "github:angular-ui/ui-router@^0.2.15"
     },
     "devDependencies": {

@@ -14,16 +14,20 @@ export class Application extends Module {
   }
 
   run(rootScope) {
-    rootScope.on('$stateChangeStart', (...args) => {
+    super.run();
+
+    rootScope.$on('$stateChangeStart', (...args) => {
       this.onStateChangeStart.call(args);
     });
 
-    rootScope.on('$stateChangeSuccess', (...args) => {
+    rootScope.$on('$stateChangeSuccess', (...args) => {
       this.onStateChangeSuccess.call(args);
     });
   }
 
-  config(locationProvider) {
+  config(stateProvider, locationProvider) {
+    super.config(stateProvider);
+
     locationProvider.html5Mode({
       'enabled': this._useHtml5Mode,
       'requireBase': this._requireBase,

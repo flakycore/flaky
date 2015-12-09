@@ -22,19 +22,13 @@ class Flaky extends Module {
    * Bootstrap angularJS application
    * @param application
    */
-  bootstrap(application = null) {
-    angular.element(document).ready(() => this.doReady(application));
-  }
+  bootstrap(application) {
+    application.addModule(this);
+    application.load();
 
-  /**
-   * @param application
-   */
-  doReady(application) {
-    if(application !== null) {
-      this.addModule(application);
-    }
-
-    angular.bootstrap(document, [this.name]);
+    angular.element(document).ready(() => {
+      angular.bootstrap(document, [application.name]);
+    });
   }
 }
 
