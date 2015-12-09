@@ -3,9 +3,9 @@ import {flaky} from 'flaky/flaky';
 import {Application} from 'flaky/Application';
 
 describe('Application', () => {
-  let app = new Application('Flaky App');
+  let app = new Application('flakyApp');
 
-  it('should be name Flaky App', () => {
-    expect(app.name).to.be.equals('Flaky App');
+  it('should be name flakyApp', () => {
+    expect(app.name).to.be.equals('flakyApp');
   });
 });

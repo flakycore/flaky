@@ -14,7 +14,7 @@ jspm install github:vlobchuk/flaky
 import {flaky} from 'flaky/flaky';
 import {Application} from 'flaky/Application';
 
-let app = new Application('FlakyApp');
+let app = new Application('flakyApp');
 
 flaky.bootstrap(app);
 ```

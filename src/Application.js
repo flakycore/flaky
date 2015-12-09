@@ -1,11 +1,12 @@
 import {injectRun, injectConfig} from './core/decorators';
+import {Module} from './Module';
 
 @injectConfig('$locationProvider')
 @injectRun('$rootScope')
-export class Application {
+export class Application extends Module {
 
   constructor(name) {
-    this._name = name;
+    super(name);
     this._useHtml5Mode = true;
     this._requireBase = true;
     this._rewriteLinks = true;
@@ -51,9 +52,5 @@ export class Application {
 
   setUrlPrefix(urlPrefix) {
     this._urlPrefix = urlPrefix;
-  }
-
-  get name() {
-    return this._name;
   }
 }
