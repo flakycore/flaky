@@ -1,39 +1,39 @@
 import angular from 'angular';
-import {flaky} from '../flaky';
+import {flaky} from 'flaky';
 
 export function controller(config = false) {
   return function decorator(target) {
     if (config !== false) {
-      flaky.addRoute(false, config, controller.name);
+      flaky.module.addRoute(false, config, controller.name);
     }
 
-    flaky.addController(target);
+    flaky.module.addController(target);
   };
 }
 
 export function service() {
   return function decorator(target) {
-    flaky.addService(target);
+    flaky.module.addService(target);
   };
 }
 
 export function component(options = {}) {
   return function decorator(target) {
-    flaky.addComponent(target, options);
-    flaky.addController(target);
+    flaky.module.addComponent(target, options);
+    flaky.module.addController(target);
   };
 }
 
 export function directive(options = {}) {
   return function decorator(target) {
-    flaky.addDirective(target, options);
-    flaky.addController(target);
+    flaky.module.addDirective(target, options);
+    flaky.module.addController(target);
   };
 }
 
 export function filter() {
   return function decorator(target) {
-    flaky.addFilter(target);
+    flaky.module.addFilter(target);
   };
 }
 

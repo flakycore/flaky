@@ -1,10 +1,10 @@
 import {Application} from 'flaky/Application';
 
-describe('Application', () => {
+xdescribe('Application', () => {
   beforeEach(module('flakyApp'));
 
   beforeEach(inject(() => {
   }));
 
-  it('')
+  xit('')
 });
