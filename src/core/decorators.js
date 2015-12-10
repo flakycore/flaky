@@ -26,7 +26,7 @@ export function component(options = {}) {
 
 export function directive(options = {}) {
   return function decorator(target) {
-    flaky.addDirective([target, options]);
+    flaky.addDirective(target, options);
     flaky.addController(target);
   };
 }
