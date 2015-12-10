@@ -1,6 +1,3 @@
-import angular from 'angular';
-import 'angular-ui/ui-router';
-import 'angular-mocks';
 import {flaky} from 'flaky/flaky';
 import {FooService} from './fixtures/FooService';
 
@@ -11,8 +8,7 @@ describe('FooService', () => {
   beforeEach(module('flakyApp'));
 
   beforeEach(() => {
-
-    createdService = angular.injector().get(serviceNormalizeName)
+    createdService = angular.injector().get(serviceNormalizeName);
   });
 
   it('should has normalize name', () => {
