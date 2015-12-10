@@ -1,7 +1,7 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 import {FooDirective} from './fixtures/FooDirective';
 
-describe('FooDirective', () => {
+describe('Directive', () => {
   let $compile;
   let $rootScope;
 
@@ -12,11 +12,11 @@ describe('FooDirective', () => {
     $rootScope = _$rootScope_;
   }));
 
-  it('should be exists in flaky', () => {
-    expect(FooDirective).to.be.equals(flaky.directives[0][0]);
+  it('FooDirective should be exists in flaky', () => {
+    expect(FooDirective).to.be.equals(flaky.module.directives[0][0]);
   });
 
-  it('replaces the element with the appropriate content', () => {
+  it('FooDirective replaces the element with the appropriate content', () => {
     let element = $compile("<div foo></div>")($rootScope);
 
     $rootScope.$digest();

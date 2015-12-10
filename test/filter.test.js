@@ -1,7 +1,7 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 import {FooFilter} from './fixtures/FooFilter';
 
-describe('FooFilter', () => {
+describe('Filter', () => {
   let $filter;
   let createdFilter;
   let filterNormalizeName = 'foo';
@@ -16,19 +16,19 @@ describe('FooFilter', () => {
     createdFilter = $filter(filterNormalizeName);
   });
 
-  it('should be exists in flaky', () => {
-    expect(FooFilter).to.be.equals(flaky.filters[0]);
+  it('FooFilter should be exists in flaky', () => {
+    expect(FooFilter).to.be.equals(flaky.module.filters[0]);
   });
 
-  it('should be exists in angular', () => {
+  it('FooFilter should be exists in angular', () => {
     expect(createdFilter).to.be.ok;
   });
 
-  it('should return value from run(\'10\')', () => {
+  it('FooFilter should return value from run(\'10\')', () => {
     expect(createdFilter("10")).to.equal(10);
   });
 
-  it('should return value from run(9) using injected service', () => {
+  it('FooFilter should return value from run(9) using injected service', () => {
     expect(createdFilter(9)).to.equal("Hello");
   });
 

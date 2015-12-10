@@ -1,4 +1,4 @@
-import {directive, inject} from 'flaky/decorators';
+import {directive, inject} from 'src/decorators';
 
 @directive({
   template: '<h1 ng-bind="dtFoo.name"></h1>'

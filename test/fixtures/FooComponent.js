@@ -1,4 +1,4 @@
-import {component} from 'flaky/decorators';
+import {component} from 'src/decorators';
 
 @component({
   template: 'Foo component content'

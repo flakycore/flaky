@@ -1,7 +1,7 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 import {FooService} from './fixtures/FooService';
 
-describe('FooService', () => {
+describe('Service', () => {
   let createdService;
   let serviceNormalizeName = '$fooService';
 
@@ -11,23 +11,23 @@ describe('FooService', () => {
     createdService = angular.injector(['flakyApp']).get(serviceNormalizeName);
   });
 
-  it('should has normalize name', () => {
+  it('FooService should has normalize name', () => {
     expect(angular.injector(['flakyApp']).has(serviceNormalizeName)).to.be.true;
   });
 
-  it('should be exists in flaky', () => {
-    expect(FooService).to.be.equals(flaky.services[0]);
+  it('FooService should be exists in flaky', () => {
+    expect(FooService).to.be.equals(flaky.module.services[0]);
   });
 
-  it('should be exists in angular', () => {
+  it('FooService should be exists in angular', () => {
     expect(createdService).to.be.ok;
   });
 
-  it('field should be equal "foo"', () => {
+  it('FooService field should be equal "foo"', () => {
     expect(createdService.obj.field).to.be.equals('foo');
   });
 
-  it('method should return "test"', () => {
+  it('FooService method should return "test"', () => {
     expect(createdService.method()).to.be.equals('method_foo');
   });
 });

@@ -1,7 +1,7 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 import {FooController} from './fixtures/FooController';
 
-describe('FooController', () => {
+describe('Controller', () => {
   let createController;
 
   beforeEach(module('flakyApp'));
@@ -12,16 +12,16 @@ describe('FooController', () => {
     };
   }));
 
-  it('should be exists in flaky', () => {
-    expect(FooController).to.be.equals(flaky.controllers[0]);
+  it('FooController should be exists in flaky', () => {
+    expect(FooController).to.be.equals(flaky.module.controllers[0]);
   });
 
-  it('should be exists in angular', () => {
+  it('FooController should be exists in angular', () => {
     let fooController = createController('FooController');
     expect(fooController).to.be.ok;
   });
 
-  it('should be user.name equal "foo"', () => {
+  it('FooController should be user.name equal "foo"', () => {
     let fooController = createController('FooController');
     expect(fooController.user.name).to.be.equals('foo');
   });

@@ -1,4 +1,4 @@
-import {service} from 'flaky/decorators';
+import {service} from 'src/decorators';
 
 @service()
 export class FooService {

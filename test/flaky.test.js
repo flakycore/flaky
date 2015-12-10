@@ -1,4 +1,4 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 
 describe('Flaky', () => {
   it('should be exists', () => {

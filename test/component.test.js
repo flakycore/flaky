@@ -1,7 +1,7 @@
-import {flaky} from 'flaky/flaky';
+import {flaky} from 'src/flaky';
 import {FooComponent} from './fixtures/FooComponent';
 
-describe('FooComponent', () => {
+describe('Component', () => {
   let $compile;
   let $rootScope;
 
@@ -12,11 +12,11 @@ describe('FooComponent', () => {
     $rootScope = _$rootScope_;
   }));
 
-  it('should be exists in flaky', () => {
-    expect(FooComponent).to.be.equals(flaky.components[0][0]);
+  it('FooComponent should be exists in flaky', () => {
+    expect(FooComponent).to.be.equals(flaky.module.components[0][0]);
   });
 
-  it('replaces the element with the appropriate content', () => {
+  it('FooComponent replaces the element with the appropriate content', () => {
     let element = $compile("<foo></foo>")($rootScope);
 
     $rootScope.$digest();
