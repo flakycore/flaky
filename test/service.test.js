@@ -8,11 +8,11 @@ describe('FooService', () => {
   beforeEach(module('flakyApp'));
 
   beforeEach(() => {
-    createdService = angular.injector().get(serviceNormalizeName);
+    createdService = angular.injector(['flakyApp']).get(serviceNormalizeName);
   });
 
   it('should has normalize name', () => {
-    expect(createdService.to.be.ok);
+    expect(createdService).to.be.ok;
   });
 
   it('should be exists in flaky', () => {
