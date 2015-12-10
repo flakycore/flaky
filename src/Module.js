@@ -143,7 +143,18 @@ console.log(component.name);
    */
   loadFilters() {
     for (let filter of this._filters) {
-      this._angularModule.filter(filter.$name, filter);
+
+
+      this._angularModule.filter(Module.normalizeFilterName(filter.name, Module.createInjectedFunction((...dependencies) => {
+
+        //let filterInstance = Object.create(filter.prototype);
+        //filter.apply(filterInstance, dependencies);
+        //
+        //if(!angular.isFunction(filterInstance.run)) {
+        //  throw new Error('Filter "' + filter.name + '" has not a run() function');
+        //}
+        return function(){return 1};
+      },  filter.$inject)));
     }
   }
 
@@ -253,6 +264,10 @@ console.log(component.name);
 
   static normalizeServiceName(serviceName) {
     return '$' + serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
+  }
+
+  static normalizeFilterName(filterName) {
+    return filterName.charAt(0).toLowerCase() + filterName.slice(1);
   }
 
   static createInjectedFunction(callback, inject) {
