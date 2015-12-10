@@ -17,9 +17,8 @@ export function service() {
   };
 }
 
-export function component(selector, options = {}) {
+export function component(options = {}) {
   return function decorator(target) {
-    target.$selector = selector;
     target.$options = options;
 
     flaky.addComponent(target);

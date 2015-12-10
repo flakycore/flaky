@@ -99,9 +99,8 @@ export class Module {
       };
 
       options = angular.extend(options, component.$options);
-
-
-      this._angularModule.directive(component.$selector, function() {
+console.log(component.name);
+      this._angularModule.directive(Module.normalizeComponentName(component.name), function() {
         return options;
       });
     }
@@ -237,16 +236,23 @@ export class Module {
     return this;
   }
 
+  static normalizeComponentName(componentName) {
+    componentName = componentName.replace('Component', '');
+    return componentName.charAt(0).toLowerCase() + componentName.slice(1);
+  }
+
   static normalizeControllerAsName(controllerName) {
-    return 'ctrl' + controllerName.replace('Controller', '').charAt(0).toUpperCase() + controllerName.slice(1);
+    controllerName = controllerName.replace('Controller', '');
+    return 'ctrl' + controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
   }
 
   static normalizeRouteName(controllerName) {
-    return controllerName.replace('Controller', '').charAt(0).toLowerCase() + controllerName.slice(1);
+    let routeName = controllerName.replace('Controller', '');
+    return routeName.charAt(0).toLowerCase() + routeName.slice(1);
   }
 
   static normalizeServiceName(serviceName) {
-    return '$' + serviceName.replace('Service', '').charAt(0).toUpperCase() + serviceName.slice(1);
+    return '$' + serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
   }
 
   static createInjectedFunction(callback, inject) {
