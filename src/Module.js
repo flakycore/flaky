@@ -1,5 +1,6 @@
 import angular from 'angular';
-import {injectConfig} from './core/decorators'
+import {Utils} from './core/Utils';
+import {injectConfig} from './decorators'
 
 @injectConfig('$stateProvider')
 export class Module {
@@ -53,22 +54,22 @@ export class Module {
     let injectConfig = [];
     let injectRun = [];
 
-    if (angular.isArray(this.constructor.$injectConfig)) {
+    if (Utils.isArray(this.constructor.$injectConfig)) {
       injectConfig = injectConfig.concat(this.constructor.$injectConfig);
     }
 
-    if (angular.isArray(this.constructor.$injectRun)) {
+    if (Utils.isArray(this.constructor.$injectRun)) {
       injectRun = injectRun.concat(this.constructor.$injectRun);
     }
 
-    this._angularModule.config(Module.createInjectedFunction((...dependencies) => {
-      if (angular.isFunction(this.config)) {
+    this._angularModule.config(Utils.createInjectedFunction((...dependencies) => {
+      if (Utils.isFunction(this.config)) {
         this.config.apply(this, dependencies);
       }
     }, injectConfig));
 
-    this._angularModule.run(Module.createInjectedFunction((...dependencies) => {
-      if (angular.isFunction(this.run)) {
+    this._angularModule.run(Utils.createInjectedFunction((...dependencies) => {
+      if (Utils.isFunction(this.run)) {
         this.run.apply(this, dependencies);
       }
     }, injectRun));
@@ -91,10 +92,10 @@ export class Module {
       let componentOptions = angular.extend({
         restrict: 'E',
         bindToController: true,
-        controller: component.name + ' as ' + Module.normalizeComponentAsName(component.name)
+        controller: component.name + ' as ' + Utils.normalizeComponentAsName(component.name)
       }, options);
 
-      this._angularModule.directive(Module.normalizeComponentName(component.name), () => {
+      this._angularModule.directive(Utils.normalizeComponentName(component.name), () => {
         return componentOptions;
       });
     }
@@ -108,10 +109,10 @@ export class Module {
       let directiveOptions = angular.extend({
         restrict: 'A',
         bindToController: true,
-        controller: directive.name + ' as ' + Module.normalizeDirectiveAsName(directive.name)
+        controller: directive.name + ' as ' + Utils.normalizeDirectiveAsName(directive.name)
       }, options);
 
-      this._angularModule.directive(Module.normalizeDirectiveName(directive.name), () => {
+      this._angularModule.directive(Utils.normalizeDirectiveName(directive.name), () => {
         return directiveOptions;
       });
     }
@@ -122,7 +123,7 @@ export class Module {
    */
   loadServices() {
     for (let service of this._services) {
-      this._angularModule.service(Module.normalizeServiceName(service.name), service);
+      this._angularModule.service(Utils.normalizeServiceName(service.name), service);
     }
   }
 
@@ -133,12 +134,12 @@ export class Module {
     for (let filter of this._filters) {
 
       this._angularModule.filter(
-        Module.normalizeFilterName(filter.name),
-        Module.createInjectedFunction((...dependencies) => {
+        Utils.normalizeFilterName(filter.name),
+        Utils.createInjectedFunction((...dependencies) => {
 
         let filterInstance = new filter(...dependencies);
 
-        if(!angular.isFunction(filterInstance.run)) {
+        if(!Utils.isFunction(filterInstance.run)) {
           throw new Error('Filter "' + filter.name + '" has not a run() function');
         }
         return (...args)=>{
@@ -209,13 +210,13 @@ export class Module {
    */
   addRoute(name, config, controller = false) {
     if (controller !== false) {
-      if (!angular.isFunction(controller)) {
+      if (!Utils.isFunction(controller)) {
 
         if (name === false) {
-          name = Module.normalizeRouteName(controller);
+          name = Utils.normalizeRouteName(controller);
         }
 
-        controller = controller + ' as ' + Module.normalizeControllerAsName(controller);
+        controller = controller + ' as ' + Utils.normalizeControllerAsName(controller);
       }
 
       config = angular.extend({
@@ -240,59 +241,6 @@ export class Module {
   addModule(module) {
     this._modules.push(module);
     return this;
-  }
-
-  static normalizeByPatternName(name, patternRegexp, type = false) {
-    let firstChar = name.charAt(0);
-    let normalizeName = patternRegexp !== false ? name.replace(new RegExp(patternRegexp), '') : name;
-
-    switch (type) {
-      case 'lo':
-        firstChar = firstChar.toLowerCase();
-      break;
-      case 'up':
-        firstChar = firstChar.toUpperCase();
-      break;
-    }
-
-    return firstChar + normalizeName.slice(1);
-  }
-
-  static normalizeComponentName(name) {
-    return Module.normalizeByPatternName(name, 'Component', 'lo');
-  }
-
-  static normalizeDirectiveName(name) {
-    return Module.normalizeByPatternName(name, 'Directive', 'lo');
-  }
-
-  static normalizeControllerAsName(name) {
-    return 'ctrl' + Module.normalizeByPatternName(name, 'Controller', 'up');
-  }
-
-  static normalizeDirectiveAsName(name) {
-    return 'dt' + Module.normalizeByPatternName(name, 'Directive', 'up');
-  }
-
-  static normalizeComponentAsName(name) {
-    return 'cp' + Module.normalizeByPatternName(name, 'Component', 'up');
-  }
-
-  static normalizeRouteName(name) {
-    return Module.normalizeByPatternName(name, 'Controller', 'lo');
-  }
-
-  static normalizeServiceName(name) {
-    return '$' + Module.normalizeByPatternName(name, false, 'lo');
-  }
-
-  static normalizeFilterName(name) {
-    return Module.normalizeByPatternName(name, 'Filter', 'lo');
-  }
-
-  static createInjectedFunction(callback, inject) {
-    callback.$inject = inject;
-    return callback;
   }
 
   /**
