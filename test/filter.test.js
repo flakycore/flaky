@@ -4,7 +4,7 @@ import {FooFilter} from './fixtures/FooFilter';
 describe('FooFilter', () => {
   let $filter;
   let createdFilter;
-  let filterNormalizeName = 'fooFilter';
+  let filterNormalizeName = 'foo';
 
   beforeEach(module('flakyApp'));
 
@@ -16,7 +16,6 @@ describe('FooFilter', () => {
     createdFilter = $filter(filterNormalizeName);
   });
 
-
   it('should be exists in flaky', () => {
     expect(FooFilter).to.be.equals(flaky.filters[0]);
   });
@@ -25,9 +24,12 @@ describe('FooFilter', () => {
     expect(createdFilter).to.be.ok;
   });
 
-  xit('field should be equal "foo"', () => {
+  it('should return value from run(\'10\')', () => {
+    expect(createdFilter("10")).to.equal(10);
   });
 
-  xit('method should return "test"', () => {
+  it('should return value from run(9) using injected service', () => {
+    expect(createdFilter(9)).to.equal("Hello");
   });
+
 });
