@@ -16,4 +16,8 @@ describe('Module', () => {
   it('normalizeServiceName should be equals "$fooService"', () => {
     expect(Module.normalizeServiceName('FooService')).to.be.equals('$fooService');
   });
+
+  it('normalizeDirectiveName should be equals "foo"', () => {
+    expect(Module.normalizeDirectiveName('FooDirective')).to.be.equals('foo');
+  });
 });
