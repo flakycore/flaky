@@ -21,6 +21,6 @@ describe('FooDirective', () => {
 
     $rootScope.$digest();
 
-    expect(element.html()).to.contain('<h1>Foo</h1>');
+    expect(element.find('h1').html()).to.contain('Foo');
   });
 });
