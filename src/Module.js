@@ -100,8 +100,7 @@ export class Module {
 
       options = angular.extend(options, component.$options);
 
-
-      this._angularModule.directive(component.$selector, function() {
+      this._angularModule.directive(Flaky.normalizeComponentName(component.name), function() {
         return options;
       });
     }
@@ -235,6 +234,10 @@ export class Module {
   addModule(module) {
     this._modules.push(module);
     return this;
+  }
+
+  static normalizeComponentName(comonentName) {
+    return comonentName.replace('Component', '').charAt(0).toLowerCase() + comonentName.slice(1);
   }
 
   static normalizeControllerAsName(controllerName) {
