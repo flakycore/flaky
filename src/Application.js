@@ -1,4 +1,4 @@
-import {injectRun, injectConfig} from './core/decorators';
+import {injectRun, injectConfig} from './decorators';
 import {Module} from './Module';
 
 @injectConfig('$locationProvider')
@@ -40,7 +40,7 @@ export class Application extends Module {
 
   onStateChangeSuccess(event, toState, toParams, fromState, fromParams) {
   }
-  
+
   setUseHtml5Mode(useHtml5Mode) {
     this._useHtml5Mode = useHtml5Mode;
     return this;
