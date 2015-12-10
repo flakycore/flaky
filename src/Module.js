@@ -100,7 +100,7 @@ export class Module {
 
       options = angular.extend(options, component.$options);
 
-      this._angularModule.directive(Flaky.normalizeComponentName(component.name), function() {
+      this._angularModule.directive(Module.normalizeComponentName(component.name), function() {
         return options;
       });
     }

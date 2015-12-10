@@ -4,13 +4,9 @@ import 'angular-mocks';
 import {flaky} from 'flaky/flaky';
 import {Application} from 'flaky/Application';
 import {FooController} from './fixtures/FooController';
+import {FooComponent} from './fixtures/FooComponent';
 
 let app = new Application('flakyApp');
+
 app.vendors = ['ui.router'];
-
-app.addRoute('index', {
-  url:'/index',
-  template: '<index-template></index-template>'
-});
-
 flaky.bootstrap(app);

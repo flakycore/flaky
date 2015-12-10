@@ -16,7 +16,6 @@ module.exports = function(config) {
       'sinon-chai'
     ],
 
-
     // list of files / patterns to load in the browser
     // files: [],
 

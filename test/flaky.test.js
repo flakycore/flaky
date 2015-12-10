@@ -1,4 +1,3 @@
-import angular from 'angular';
 import {flaky} from 'flaky/flaky';
 
 describe('Flaky', () => {

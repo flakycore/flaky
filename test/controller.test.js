@@ -1,6 +1,3 @@
-import angular from 'angular';
-import 'angular-ui/ui-router';
-import 'angular-mocks';
 import {flaky} from 'flaky/flaky';
 import {FooController} from './fixtures/FooController';
 
