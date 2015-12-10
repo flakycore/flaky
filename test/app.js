@@ -7,8 +7,15 @@ import {FooController} from './fixtures/FooController';
 import {FooComponent} from './fixtures/FooComponent';
 import {FooService} from './fixtures/FooService';
 import {FooFilter} from './fixtures/FooFilter';
+import {FooDirective} from './fixtures/FooDirective';
 
 let app = new Application('flakyApp');
 
-app.vendors = ['ui.router'];
+app
+  .setVendors(['ui.router'])
+  .addRoute('foo', {
+    url: '/foo',
+  })
+;
+
 flaky.bootstrap(app);

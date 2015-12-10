@@ -19,19 +19,14 @@ export function service() {
 
 export function component(options = {}) {
   return function decorator(target) {
-    target.$options = options;
-
-    flaky.addComponent(target);
+    flaky.addComponent(target, options);
     flaky.addController(target);
   };
 }
 
-export function directive(selector, options = {}) {
+export function directive(options = {}) {
   return function decorator(target) {
-    target.$selector = selector;
-    target.$options = options;
-
-    flaky.addDirective(target);
+    flaky.addDirective(target, options);
     flaky.addController(target);
   };
 }
