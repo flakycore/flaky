@@ -1,10 +1,11 @@
 import {directive, inject} from 'flaky/core/decorators';
 
-@directive()
-@inject('$element')
+@directive({
+  template: '<h1 ng-bind="dtFoo.name"></h1>'
+})
 export class FooDirective {
 
-  constructor(element) {
-    element.html('<h1>Foo</h1>')
+  constructor() {
+    this.name = 'Foo';
   }
 }
