@@ -29,7 +29,7 @@ export class Module {
   load() {
     let modules = [];
 
-    for(let module of this._modules) {
+    for (let module of this._modules) {
       modules.push(module.load());
     }
 
@@ -200,25 +200,27 @@ export class Module {
 
   /**
    * Add route
-   * @param controller {string|function}
-   * @param config {hash}
-   * @param name {string}
+   * @param name
+   * @param config
+   * @param controller
    * @returns {Module}
    */
-  addRoute(controller, config, name) {
-    if (!angular.isFunction(controller)) {
-      if (name === false) {
-        name = Module.normalizeRouteName(controller);
+  addRoute(name, config, controller = false) {
+    if (controller !== false) {
+      if (!angular.isFunction(controller)) {
+        if (name === false) {
+          name = Module.normalizeRouteName(controller);
+        }
       }
+
+      config = angular.extend({
+        controller: controller
+      }, config);
     }
 
     if (name === false) {
       throw new Error('Not set route name');
     }
-
-    config = angular.extend({
-      controller: controller
-    }, config);
 
     this._routes.push([name, config]);
 
@@ -236,7 +238,7 @@ export class Module {
   }
 
   static normalizeControllerAsName(controllerName) {
-    return controllerName.replace('Controller', '').charAt(0).toUpperCase() + controllerName.slice(1);
+    return 'ctrl' + controllerName.replace('Controller', '').charAt(0).toUpperCase() + controllerName.slice(1);
   }
 
   static normalizeRouteName(controllerName) {

@@ -4,7 +4,7 @@ import {flaky} from '../flaky';
 export function controller(config = false) {
   return function decorator(target) {
     if (config !== false) {
-      flaky.addRoute(controller.name, config);
+      flaky.addRoute(false, config, controller.name);
     }
 
     flaky.addController(target);
