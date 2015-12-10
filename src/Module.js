@@ -87,21 +87,15 @@ export class Module {
    * Initialization components (AngularJS directive set "restrict" to element)
    */
   loadComponents() {
-    for (let component of this._components) {
-      if (component.$selector) {
-        throw new Error('Not set selector for component "' + component.name + '"');
-      }
-
-      let options = {
+    for (let [component, options] of this._components) {
+      let componentOptions = angular.extend({
         restrict: 'E',
         bindToController: true,
         controller: component.name + ' as ctrl' + Module.normalizeControllerAsName(component.name)
-      };
+      }, options);
 
-      options = angular.extend(options, component.$options);
-console.log(component.name);
-      this._angularModule.directive(Module.normalizeComponentName(component.name), function() {
-        return options;
+      this._angularModule.directive(Module.normalizeComponentName(component.name), () => {
+        return componentOptions;
       });
     }
   }
@@ -111,20 +105,14 @@ console.log(component.name);
    */
   loadDirectives() {
     for (let directive of this._directives) {
-      if (directive.$selector) {
-        throw new Error('Not set selector for directive "' + directive.name + '"');
-      }
-
-      let options = {
+      let directiveOptions = angular.extend({
         restrict: 'A',
         bindToController: true,
         controller: directive.name + ' as ctrl' + Module.normalizeControllerAsName(directive.name)
-      };
+      }, directive.$options);
 
-      options = angular.extend(options, directive.$options);
-
-      this._angularModule.directive(directive.$selector, function() {
-        return options;
+      this._angularModule.directive(directive.$selector, () => {
+        return directiveOptions;
       });
     }
   }
@@ -170,10 +158,11 @@ console.log(component.name);
   /**
    * Add component
    * @param component
+   * @param options
    * @returns {Module}
    */
-  addComponent(component) {
-    this._components.push(component);
+  addComponent(component, options = {}) {
+    this._components.push([component, options]);
     return this;
   }
 
@@ -236,23 +225,40 @@ console.log(component.name);
     return this;
   }
 
-  static normalizeComponentName(componentName) {
-    componentName = componentName.replace('Component', '');
-    return componentName.charAt(0).toLowerCase() + componentName.slice(1);
+  static normalizeByPatternName(name, patternName, type = false) {
+    let firstChar = name.charAt(0);
+    let normalizeName = patternName !== false ? name.replace(patternName, '') : name;
+
+    switch (type) {
+      case 'lo':
+        firstChar = firstChar.toLowerCase();
+      break;
+      case 'up':
+        firstChar = firstChar.toUpperCase();
+      break;
+    }
+
+    return firstChar + normalizeName.slice(1);
   }
 
-  static normalizeControllerAsName(controllerName) {
-    controllerName = controllerName.replace('Controller', '');
-    return 'ctrl' + controllerName.charAt(0).toUpperCase() + controllerName.slice(1);
+  static normalizeComponentName(name) {
+    return Module.normalizeByPatternName(name, 'Component', 'lo');
   }
 
-  static normalizeRouteName(controllerName) {
-    let routeName = controllerName.replace('Controller', '');
-    return routeName.charAt(0).toLowerCase() + routeName.slice(1);
+  static normalizeDirectiveName(name) {
+    return Module.normalizeByPatternName(name, 'Directive', 'lo');
   }
 
-  static normalizeServiceName(serviceName) {
-    return '$' + serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
+  static normalizeControllerAsName(name) {
+    return 'ctrl' + Module.normalizeByPatternName(name, 'Controller', 'up');
+  }
+
+  static normalizeRouteName(name) {
+    return Module.normalizeByPatternName(name, 'Controller', 'lo');
+  }
+
+  static normalizeServiceName(name) {
+    return '$' + Module.normalizeByPatternName(name, false, 'lo');
   }
 
   static createInjectedFunction(callback, inject) {
