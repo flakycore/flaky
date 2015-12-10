@@ -13,7 +13,7 @@ describe('FooComponent', () => {
   }));
 
   it('should be exists in flaky', () => {
-    expect(FooComponent).to.be.equals(flaky.components[0]);
+    expect(FooComponent).to.be.equals(flaky.components[0][0]);
   });
 
   it('replaces the element with the appropriate content', () => {
