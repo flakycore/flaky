@@ -1,6 +1,6 @@
 import angular from 'angular';
 import {Utils} from './core/Utils';
-import {flaky} from 'flaky';
+import {flaky} from 'flaky/flaky';
 
 export function controller(config = false) {
   return function decorator(target) {
