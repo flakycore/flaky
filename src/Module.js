@@ -132,7 +132,6 @@ export class Module {
   loadFilters() {
     for (let filter of this._filters) {
 
-
       this._angularModule.filter(
         Module.normalizeFilterName(filter.name),
         Module.createInjectedFunction((...dependencies) => {
