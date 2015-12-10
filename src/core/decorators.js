@@ -31,10 +31,9 @@ export function directive(options = {}) {
   };
 }
 
-export function filter(name) {
+export function filter() {
   return function decorator(target) {
-    target.$name = name;
-    flaky.addFilter(name, target);
+    flaky.addFilter(target);
   };
 }
 

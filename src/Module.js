@@ -131,7 +131,20 @@ export class Module {
    */
   loadFilters() {
     for (let filter of this._filters) {
-      this._angularModule.filter(filter.$name, filter);
+
+      this._angularModule.filter(
+        Module.normalizeFilterName(filter.name),
+        Module.createInjectedFunction((...dependencies) => {
+
+        let filterInstance = new filter(...dependencies);
+
+        if(!angular.isFunction(filterInstance.run)) {
+          throw new Error('Filter "' + filter.name + '" has not a run() function');
+        }
+        return (...args)=>{
+          return filterInstance.run(...args);
+        }
+      },  filter.$inject));
     }
   }
 
@@ -271,6 +284,10 @@ export class Module {
 
   static normalizeServiceName(name) {
     return '$' + Module.normalizeByPatternName(name, false, 'lo');
+  }
+
+  static normalizeFilterName(name) {
+    return Module.normalizeByPatternName(name, 'Filter', 'lo');
   }
 
   static createInjectedFunction(callback, inject) {
