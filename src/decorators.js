@@ -1,4 +1,5 @@
 import angular from 'angular';
+import {Utils} from './core/Utils';
 import {flaky} from 'flaky';
 
 export function controller(config = false) {
@@ -59,7 +60,7 @@ function abstractInject(name, target, dependencies) {
   let targetDependencies = [];
   let extendsProto = Reflect.getPrototypeOf(target);
 
-  if (angular.isArray(extendsProto[name])) {
+  if (Utils.isArray(extendsProto[name])) {
     targetDependencies = extendsProto[name];
   }
 
