@@ -91,7 +91,7 @@ export class Module {
       let componentOptions = angular.extend({
         restrict: 'E',
         bindToController: true,
-        controller: component.name + ' as ctrl' + Module.normalizeControllerAsName(component.name)
+        controller: component.name + ' as ' + Module.normalizeComponentAsName(component.name)
       }, options);
 
       this._angularModule.directive(Module.normalizeComponentName(component.name), () => {
@@ -108,7 +108,7 @@ export class Module {
       let directiveOptions = angular.extend({
         restrict: 'A',
         bindToController: true,
-        controller: directive.name + ' as ctrl' + Module.normalizeControllerAsName(directive.name)
+        controller: directive.name + ' as ' + Module.normalizeDirectiveAsName(directive.name)
       }, options);
 
       this._angularModule.directive(Module.normalizeDirectiveName(directive.name), () => {
@@ -197,9 +197,12 @@ export class Module {
   addRoute(name, config, controller = false) {
     if (controller !== false) {
       if (!angular.isFunction(controller)) {
+
         if (name === false) {
           name = Module.normalizeRouteName(controller);
         }
+
+        controller = controller + ' as ' + Module.normalizeControllerAsName(controller);
       }
 
       config = angular.extend({
@@ -226,9 +229,9 @@ export class Module {
     return this;
   }
 
-  static normalizeByPatternName(name, patternName, type = false) {
+  static normalizeByPatternName(name, patternRegexp, type = false) {
     let firstChar = name.charAt(0);
-    let normalizeName = patternName !== false ? name.replace(patternName, '') : name;
+    let normalizeName = patternRegexp !== false ? name.replace(new RegExp(patternRegexp), '') : name;
 
     switch (type) {
       case 'lo':
@@ -252,6 +255,14 @@ export class Module {
 
   static normalizeControllerAsName(name) {
     return 'ctrl' + Module.normalizeByPatternName(name, 'Controller', 'up');
+  }
+
+  static normalizeDirectiveAsName(name) {
+    return 'dt' + Module.normalizeByPatternName(name, 'Directive', 'up');
+  }
+
+  static normalizeComponentAsName(name) {
+    return 'cp' + Module.normalizeByPatternName(name, 'Component', 'up');
   }
 
   static normalizeRouteName(name) {
