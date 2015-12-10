@@ -1,6 +1,6 @@
-import {inject} from 'flaky/core/decorators';
-import {filter} from 'flaky/core/decorators';
-import {service} from 'flaky/core/decorators';
+import {inject} from 'flaky/decorators';
+import {filter} from 'flaky/decorators';
+import {service} from 'flaky/decorators';
 
 @inject('$fooFilterService')
 @filter()

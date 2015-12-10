@@ -1,4 +1,4 @@
-import {controller} from 'flaky/core/decorators';
+import {controller} from 'flaky/decorators';
 
 @controller()
 export class FooController {
