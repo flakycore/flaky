@@ -14,6 +14,7 @@ app
   .setVendors(['ui.router'])
   .addRoute('foo', {
     url: '/foo',
+    template: '<foo></foo>'
   })
 ;
 
