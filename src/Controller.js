@@ -1,5 +1,6 @@
 import angular from 'angular';
-import {inject} from './core/decorators';
+import {inject} from './decorators';
+import {Utils} from './core/Utils';
 
 @inject('$scope', '$stateParams', '$filter')
 export class Controller {
@@ -15,7 +16,7 @@ export class Controller {
   }
 
   hasParent() {
-    return angular.isDefined(this.parent);
+    return Utils.isDefined(this.parent);
   }
 
   getFilter(name) {
@@ -27,7 +28,7 @@ export class Controller {
   }
 
   hasParam(name) {
-    return angular.isDefined(this._stateParams[name]);
+    return Utils.isDefined(this._stateParams[name]);
   }
 
   on(eventName, callback) {
