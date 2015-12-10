@@ -4,8 +4,8 @@ import {service} from 'flaky/core/decorators';
 export class FooService {
 
   constructor() {
-    this.field = {
-      name: 'foo'
+    this.obj = {
+      field: 'foo'
     };
   }
 

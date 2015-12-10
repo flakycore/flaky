@@ -12,7 +12,7 @@ describe('FooService', () => {
   });
 
   it('should has normalize name', () => {
-    expect(createdService).to.be.ok;
+    expect(angular.injector(['flakyApp']).has(serviceNormalizeName)).to.be.true;
   });
 
   it('should be exists in flaky', () => {
@@ -24,7 +24,7 @@ describe('FooService', () => {
   });
 
   it('field should be equal "foo"', () => {
-    expect(createdService.field).to.be.equals('foo');
+    expect(createdService.obj.field).to.be.equals('foo');
   });
 
   it('method should return "test"', () => {
