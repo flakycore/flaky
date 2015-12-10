@@ -104,14 +104,14 @@ export class Module {
    * Initialization components (AngularJS directive set "restrict" to attribute)
    */
   loadDirectives() {
-    for (let directive of this._directives) {
+    for (let [directive, options] of this._directives) {
       let directiveOptions = angular.extend({
         restrict: 'A',
         bindToController: true,
         controller: directive.name + ' as ctrl' + Module.normalizeControllerAsName(directive.name)
-      }, directive.$options);
+      }, options);
 
-      this._angularModule.directive(directive.$selector, () => {
+      this._angularModule.directive(Module.normalizeDirectiveName(directive.name), () => {
         return directiveOptions;
       });
     }
@@ -169,10 +169,11 @@ export class Module {
   /**
    * Add directive
    * @param directive
+   * @param options
    * @returns {Module}
    */
-  addDirective(directive) {
-    this._directives.push(directive);
+  addDirective(directive, options = {}) {
+    this._directives.push([directive, options]);
     return this;
   }
 
@@ -266,6 +267,16 @@ export class Module {
     return callback;
   }
 
+  /**
+   * Set modules name
+   * @param vendors
+   * @returns {Module}
+     */
+  setVendors(vendors) {
+    this._vendors = vendors;
+    return this;
+  }
+
   get name() {
     return this._name;
   }
@@ -300,9 +311,5 @@ export class Module {
 
   get vendors() {
     return this._vendors;
-  }
-
-  set vendors(vendors) {
-    this._vendors = vendors;
   }
 }
