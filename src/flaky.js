@@ -8,11 +8,11 @@ import {Module} from './Module';
  */
 let instance = null;
 
-class Flaky extends Module {
+class Flaky {
 
   constructor() {
     if (!instance) {
-      super('flaky');
+      this._module = new Module('flaky');
       instance = this;
     }
     return instance;
@@ -23,12 +23,17 @@ class Flaky extends Module {
    * @param application
    */
   bootstrap(application) {
-    application.addModule(this);
+    application.addModule(this._module);
+
     application.load();
 
     angular.element(document).ready(() => {
       angular.bootstrap(document, [application.name]);
     });
+  }
+
+  get module() {
+    return this._module;
   }
 }
 
