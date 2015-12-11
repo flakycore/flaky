@@ -30,6 +30,10 @@ export class Utils {
     return firstChar + normalizeName.slice(1);
   }
 
+  static normalizeInterceptorName(name) {
+    return '$' + Utils.normalizeByPatternName(name, false, 'lo');
+  }
+
   static normalizeComponentName(name) {
     return Utils.normalizeByPatternName(name, 'Component', 'lo');
   }
