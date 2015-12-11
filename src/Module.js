@@ -2,7 +2,7 @@ import angular from 'angular';
 import {Utils} from './core/Utils';
 import {injectConfig} from './decorators'
 
-@injectConfig('$stateProvider')
+@injectConfig('$stateProvider', '$httpProvider')
 export class Module {
 
   constructor(name) {
@@ -16,15 +16,20 @@ export class Module {
     this._directives = [];
     this._filters = [];
     this._interceptors = [];
+    this._preparedInterceptorNames = [];
     this._modules = [];
   }
 
   run() {
   }
 
-  config(stateProvider) {
+  config(stateProvider, httpProvider) {
     for (let [name, config] of this._routes) {
       stateProvider.state(name, config);
+    }
+
+    for (let interceptorServiceName of this._preparedInterceptorNames) {
+      httpProvider.interceptors.push(interceptorServiceName);
     }
   }
 
@@ -159,6 +164,7 @@ export class Module {
   loadInterceptors() {
     for (let [interceptor, type] of this._interceptors) {
       let availTypes = ['request', 'requestError', 'response', 'responseError'];
+      let interceptorName = Utils.normalizeInterceptorName(interceptor.name);
 
       if (availTypes.indexOf(type) === -1) {
         throw new Error('Interceptor type "' + type + '" is invalid');
@@ -179,7 +185,9 @@ export class Module {
         return interceptorProxy;
       }, interceptor.$inject);
 
-      this._angularModule.factory(Utils.normalizeInterceptorName(interceptor.name), interceptorFactory);
+      this._preparedInterceptorNames.push(interceptorName);
+
+      this._angularModule.factory(interceptorName, interceptorFactory);
     }
   }
 
