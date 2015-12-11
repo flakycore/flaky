@@ -14,15 +14,17 @@
     "packages": "jspm_packages"
   },
   "devDependencies": {
+    "babel-preset-stage-1": "^6.3.13",
     "chai": "^3.0.0",
-    "chai-as-promised": "^5.1.0",
     "eslint": "^1.2.0",
     "eslint-config-standard": "^4.1.0",
     "eslint-plugin-standard": "^1.2.0",
+    "isparta": "^4.0.0",
     "karma": "^0.12.36",
+    "karma-babel-preprocessor": "5.2.2",
     "karma-chai": "^0.1.0",
-    "karma-chai-as-promised": "^0.1.2",
     "karma-chrome-launcher": "^0.1.12",
+    "karma-coverage": "^0.5.3",
     "karma-jspm": "^2.0.2",
     "karma-mocha": "^0.1.10",
     "karma-mocha-reporter": "^1.0.2",
@@ -33,15 +35,13 @@
     "directories": {
       "test": "test"
     },
-    "dependencies": {
-      "angular": "github:angular/bower-angular@^1.4.8",
-      "angular-mocks": "github:angular/bower-angular-mocks@^1.4.8",
-      "angular-ui/ui-router": "github:angular-ui/ui-router@^0.2.15"
-    },
     "devDependencies": {
-      "babel": "npm:babel-core@^5.1.13",
-      "babel-runtime": "npm:babel-runtime@^5.1.13",
-      "core-js": "npm:core-js@^0.9.4"
+      "angular": "github:angular/bower-angular@1.4.8",
+      "angular-mocks": "github:angular/bower-angular-mocks@1.4.8",
+      "angular-ui/ui-router": "github:angular-ui/ui-router@0.2.15",
+      "babel": "npm:babel-core@5.8.34",
+      "babel-runtime": "npm:babel-runtime@5.8.34",
+      "core-js": "npm:core-js@0.9.18"
     }
   },
   "main": "./src/flaky.js",
