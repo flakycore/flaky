@@ -28,4 +28,8 @@ describe('Utils', () => {
   it('normalizeDirectiveName should be equals "foo"', () => {
     expect(Utils.normalizeDirectiveName('FooDirective')).to.be.equals('foo');
   });
+
+  it('normalizeInterceptorName should be equals "$fooInterceptor"', () => {
+    expect(Utils.normalizeInterceptorName('FooInterceptor')).to.be.equals('$fooInterceptor');
+  });
 });
