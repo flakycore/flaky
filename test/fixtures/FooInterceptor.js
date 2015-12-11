@@ -14,6 +14,7 @@ export class FooResponseInterceptor{
   }
 }
 
+
 @inject('$fooInterceptorService')
 @interceptor('request')
 export class FooRequestInterceptor{
@@ -28,6 +29,7 @@ export class FooRequestInterceptor{
   }
 }
 
+
 @inject('$fooInterceptorService')
 @interceptor('responseError')
 export class FooResponseErrorInterceptor{
@@ -41,6 +43,7 @@ export class FooResponseErrorInterceptor{
     return Object.assign(config, this.objToExtend);
   }
 }
+
 
 @inject('$fooInterceptorService')
 @interceptor('requestError')
@@ -66,18 +69,5 @@ export class FooInterceptorService {
 
   getField() {
     return this.field;
-  }
-}
-
-
-class FooInterceptor {
-
-  constructor(fooInterceptorService) {
-    this.fooInterceptorService = fooInterceptorService;
-    this.objToExtend = {fromService: this.fooInterceptorService.getField()};
-  }
-
-  run(config) {
-    return Object.assign(config, this.objToExtend);
   }
 }
