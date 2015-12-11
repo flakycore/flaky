@@ -1,7 +1,7 @@
 import {flaky} from 'src/flaky';
 import {FooResponseInterceptor, FooRequestInterceptor, FooResponseErrorInterceptor, FooRequestErrorInterceptor} from './fixtures/FooInterceptor';
 
-describe('FooInterceptor', () => {
+describe('Interceptors', () => {
   let $fooResponseInterceptor,
     $fooRequestInterceptor,
     $fooResponseErrorInterceptor,
