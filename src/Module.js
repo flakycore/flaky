@@ -326,6 +326,10 @@ export class Module {
     return this._filters;
   }
 
+  get interceptors() {
+    return this._interceptors;
+  }
+
   get modules() {
     return this._modules;
   }
