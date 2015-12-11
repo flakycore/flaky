@@ -24,11 +24,11 @@ describe('Filter', () => {
     expect(createdFilter).to.be.ok;
   });
 
-  it('FooFilter should return value from run(\'10\')', () => {
+  it('FooFilter should return right value from run(\'10\')', () => {
     expect(createdFilter("10")).to.equal(10);
   });
 
-  it('FooFilter should return value from run(9) using injected service', () => {
+  it('FooFilter should return right value from run(9) using injected service', () => {
     expect(createdFilter(9)).to.equal("Hello");
   });
 

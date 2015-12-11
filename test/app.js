@@ -6,9 +6,11 @@ import {Application} from 'src/Application';
 import {FooController} from './fixtures/FooController';
 import {FooComponent} from './fixtures/FooComponent';
 import {FooService} from './fixtures/FooService';
-import {FooFilter} from './fixtures/FooFilter';
-import {FooFilterService} from './fixtures/FooFilter';
+import {FooFilter, FooFilterService} from './fixtures/FooFilter';
 import {FooDirective} from './fixtures/FooDirective';
+import {FooResponseInterceptor, FooRequestInterceptor,
+  FooResponseErrorInterceptor, FooRequestErrorInterceptor,
+  FooInterceptorService} from './fixtures/FooInterceptors';
 
 let app = new Application('flakyApp');
 

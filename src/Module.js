@@ -135,15 +135,18 @@ export class Module {
   loadFilters() {
     for (let filter of this._filters) {
       if (!Utils.isFunction(filter.prototype.run)) {
-        throw new Error('Filter "' + filter.name + '" has not a run() function');
+        throw new Error('Filter "' + filter.name + '" has no a run() function');
       }
 
       let filterFactory = Utils.createInjectedFunction((...dependencies) => {
         let filterInstance = new filter(...dependencies);
+        let filterFn;
 
-        return (...args)=> {
+        filterFn = (...args)=> {
           return filterInstance.run(...args);
-        }
+        };
+
+        return filterFn;
       }, filter.$inject);
 
       this._angularModule.filter(Utils.normalizeFilterName(filter.name), filterFactory);
@@ -157,12 +160,12 @@ export class Module {
     for (let [interceptor, type] of this._interceptors) {
       let availTypes = ['request', 'requestError', 'response', 'responseError'];
 
-      if(availTypes.indexOf(type) === -1) {
-        throw new Error('Interceptor type "' + type + '" invalid');
+      if (availTypes.indexOf(type) === -1) {
+        throw new Error('Interceptor type "' + type + '" is invalid');
       }
 
       if (!Utils.isFunction(interceptor.prototype.run)) {
-        throw new Error('Interceptor "' + filter.name + '" has not a run() function');
+        throw new Error('Interceptor "' + filter.name + '" has no a run() function');
       }
 
       let interceptorFactory = Utils.createInjectedFunction((...dependencies) => {
@@ -256,7 +259,7 @@ export class Module {
     }
 
     if (name === false) {
-      throw new Error('Not set route name');
+      throw new Error('Route name is not set');
     }
 
     this._routes.push([name, config]);
@@ -321,6 +324,10 @@ export class Module {
 
   get filters() {
     return this._filters;
+  }
+
+  get interceptors() {
+    return this._interceptors;
   }
 
   get modules() {
