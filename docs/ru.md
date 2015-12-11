@@ -1,18 +1,14 @@
 # Flaky
 
-[![npm version](http://img.shields.io/npm/v/REPO.svg?style=flat)](https://npmjs.org/package/REPO "View this project on npm")
-
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-
 Обёртка позволяющая создавать приложения для AngularJS используя возможности ES2015.
 
-## Установка
+# Установка
 
 ``` console
 jspm install github:vlobchuk/flaky
 ```
 
-## С чего начать?
+# С чего начать?
 
 ``` javascript
 import {flaky} from 'flaky/flaky';
@@ -23,26 +19,31 @@ let app = new Application('flakyApp');
 flaky.bootstrap(app);
 ```
 
-## Для разработчика
+# Для разработчика
 
-### Установка
+## Установка
 
 ``` console
 npm install
 jspm install
 ```
 
-### Запуск тестов
+## Запуск тестов
 
 ``` console
 npm test
 ```
 
-## Зависимости
+# Зависимости
 
 - AngularJS 1.4.7 или выше
 - AngularJS UI-Router 0.2.15 или выше
 
-## Автор
+# Автор
 
 Vitaly Lobchuk <vn.lobchuk@gmail.com>
+
+# Помощь
+
+__Ошибки и запросы__: отправить через трекер проекта.<br>
+[![Issues](http://img.shields.io/github/issues/USER/REPO.svg)]( https://github.com/USER/REPO/issues )
