@@ -1,5 +1,17 @@
 import {inject, interceptor, service} from 'src/decorators';
 
+export class FooInterceptor {
+
+  constructor(fooInterceptorService) {
+    this.fooInterceptorService = fooInterceptorService;
+    this.objToExtend = {fromService: this.fooInterceptorService.getField()};
+  }
+
+  run(config) {
+    return Object.assign(config, this.objToExtend);
+  }
+}
+
 @inject('$fooInterceptorService')
 @interceptor('response')
 export class FooResponseInterceptor extends FooInterceptor{
@@ -37,14 +49,4 @@ export class FooInterceptorService {
 }
 
 
-export class FooInterceptor {
 
-  constructor(fooInterceptorService) {
-    this.fooInterceptorService = fooInterceptorService;
-    this.objToExtend = {fromService: this.fooInterceptorService.getField()};
-  }
-
-  run(config) {
-    return Object.assign(config, this.objToExtend);
-  }
-}
