@@ -45,5 +45,5 @@ Vitaly Lobchuk <vn.lobchuk@gmail.com>
 
 # Помощь
 
-__Ошибки и запросы__: отправить через трекер проекта.<br>
+__Ошибки и запросы__: можно отправить через трекер проекта.<br>
 [![Issues](http://img.shields.io/github/issues/vlobchuk/flaky.svg)]( https://github.com/vlobchuk/flaky/issues )
