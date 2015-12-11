@@ -47,7 +47,7 @@
       "core-js": "npm:core-js@0.9.18"
     }
   },
-  "main": "./src/flaky.js",
+  "main": "./src",
   "scripts": {
     "test": "karma start",
     "test:watch": "karma start --no-single-run"
