@@ -50,6 +50,10 @@ module.exports = function(config) {
     reporters: ['coverage', 'mocha'],
 
     coverageReporter: {
+      instrumenters: {isparta: require('isparta')},
+      instrumenter: {
+        'src/**/*.js': 'isparta'
+      },
       reporters: [
         {
           type: 'text-summary',
@@ -64,7 +68,11 @@ module.exports = function(config) {
     babelPreprocessor: {
       options: {
         stage: 1,
-        sourceMap: 'inline'
+        sourceMap: 'inline',
+        blacklist: ['useStrict']
+      },
+      sourceFileName: function(file) {
+        return file.originalPath;
       }
     },
 
