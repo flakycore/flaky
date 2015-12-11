@@ -15,6 +15,7 @@ export class Module {
     this._components = [];
     this._directives = [];
     this._filters = [];
+    this._interceptors = [];
     this._modules = [];
   }
 
@@ -43,6 +44,7 @@ export class Module {
     this.loadDirectives();
     this.loadServices();
     this.loadFilters();
+    this.loadInterceptors();
 
     return this._angularModule.name;
   }
@@ -128,24 +130,53 @@ export class Module {
   }
 
   /**
-   * Initialization components (AngularJS filter)
+   * Initialization filters (AngularJS filter)
    */
   loadFilters() {
     for (let filter of this._filters) {
+      if (!Utils.isFunction(filter.prototype.run)) {
+        throw new Error('Filter "' + filter.name + '" has not a run() function');
+      }
 
-      this._angularModule.filter(
-        Utils.normalizeFilterName(filter.name),
-        Utils.createInjectedFunction((...dependencies) => {
-
+      let filterFactory = Utils.createInjectedFunction((...dependencies) => {
         let filterInstance = new filter(...dependencies);
 
-        if(!Utils.isFunction(filterInstance.run)) {
-          throw new Error('Filter "' + filter.name + '" has not a run() function');
-        }
-        return (...args)=>{
+        return (...args)=> {
           return filterInstance.run(...args);
         }
-      },  filter.$inject));
+      }, filter.$inject);
+
+      this._angularModule.filter(Utils.normalizeFilterName(filter.name), filterFactory);
+    }
+  }
+
+  /**
+   * Initialization interceptors (AngularJS interceptor)
+   */
+  loadInterceptors() {
+    for (let [interceptor, type] of this._interceptors) {
+      let availTypes = ['request', 'requestError', 'response', 'responseError'];
+
+      if(availTypes.indexOf(type) === -1) {
+        throw new Error('Interceptor type "' + type + '" invalid');
+      }
+
+      if (!Utils.isFunction(interceptor.prototype.run)) {
+        throw new Error('Interceptor "' + filter.name + '" has not a run() function');
+      }
+
+      let interceptorFactory = Utils.createInjectedFunction((...dependencies) => {
+        let interceptorInstance = new interceptor(...dependencies);
+        let interceptorProxy = [];
+
+        interceptorProxy[type] = (...args) => {
+          return interceptorInstance.run(...args);
+        };
+
+        return interceptorProxy;
+      }, interceptor.$inject);
+
+      this._angularModule.factory(Utils.normalizeInterceptorName(interceptor.name), interceptorFactory);
     }
   }
 
@@ -234,6 +265,17 @@ export class Module {
   }
 
   /**
+   * Add interceptor
+   * @param interceptor
+   * @param type
+   * @returns {Module}
+   */
+  addInterceptor(interceptor, type) {
+    this._interceptors.push([interceptor, type]);
+    return this;
+  }
+
+  /**
    * Add module
    * @param module {Module}
    * @returns {Module}
@@ -247,7 +289,7 @@ export class Module {
    * Set modules name
    * @param vendors
    * @returns {Module}
-     */
+   */
   setVendors(vendors) {
     this._vendors = vendors;
     return this;
