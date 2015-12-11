@@ -1,5 +1,5 @@
 {
-  "name": "flaky",
+  "name": "flaky/flaky",
   "version": "1.0.0-beta",
   "description": "",
   "license": "MIT",
@@ -47,7 +47,6 @@
       "core-js": "npm:core-js@0.9.18"
     }
   },
-  "main": "./src",
   "scripts": {
     "test": "karma start",
     "test:watch": "karma start --no-single-run"
