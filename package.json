@@ -1,5 +1,4 @@
 {
-  "baseURL": "./src",
   "name": "flaky",
   "version": "1.0.0-beta",
   "description": "",
@@ -36,6 +35,8 @@
     "mocha": "^2.2.5"
   },
   "jspm": {
+    "lib": "./src",
+    "format": "es6",
     "directories": {
       "test": "test"
     },
