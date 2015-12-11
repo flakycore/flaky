@@ -1,7 +1,7 @@
 import {injectRun, injectConfig} from './decorators';
 import {Module} from './Module';
 
-@injectConfig('$locationProvider')
+@injectConfig('$locationProvider', '$httpProvider')
 @injectRun('$rootScope')
 export class Application extends Module {
 
@@ -25,7 +25,7 @@ export class Application extends Module {
     });
   }
 
-  config(stateProvider, locationProvider) {
+  config(stateProvider, locationProvider, httpProvider) {
     super.config(stateProvider);
 
     locationProvider.html5Mode({
@@ -33,6 +33,11 @@ export class Application extends Module {
       'requireBase': this._requireBase,
       'rewriteLinks': this._rewriteLinks
     }).hashPrefix(this._urlPrefix);
+
+    for (let [interceptor, type] of this._interceptors) {
+      console.log(interceptor.name);
+      httpProvider.interceptors.push(interceptor.name);
+    }
   }
 
   onStateChangeStart(event, toState, toParams, fromState, fromParams) {
