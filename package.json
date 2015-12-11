@@ -10,6 +10,7 @@
     "url": "git://github.com/vlobchuk/flaky.git"
   },
   "directories": {
+    "lib": "./src",
     "test": "test",
     "packages": "jspm_packages"
   },
@@ -35,7 +36,6 @@
     "mocha": "^2.2.5"
   },
   "jspm": {
-    "lib": "./src",
     "format": "es6",
     "directories": {
       "test": "test"
