@@ -12,12 +12,13 @@ module.exports = function(config) {
     frameworks: [
       'jspm',
       'mocha',
-      'chai-as-promised',
       'sinon-chai'
     ],
 
     // list of files / patterns to load in the browser
-    // files: [],
+    files: [
+      'jspm_packages/npm/babel-core@5.8.34/browser-polyfill.js'
+    ],
 
     // configuration for karma-jspm
     jspm: {
@@ -40,14 +41,32 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'src/**/*.js': ['babel', 'coverage']
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['coverage', 'mocha'],
 
+    coverageReporter: {
+      reporters: [
+        {
+          type: 'text-summary',
+        },
+        {
+          type: 'html',
+          dir: 'coverage/',
+        }
+      ]
+    },
+
+    babelPreprocessor: {
+      options: {
+        stage: 1,
+        sourceMap: 'inline'
+      }
+    },
 
     // web server port
     port: 9876,
