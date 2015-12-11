@@ -10,7 +10,7 @@
     "url": "git://github.com/vlobchuk/flaky.git"
   },
   "directories": {
-    "lib": "./src",
+    "lib": "src",
     "test": "test",
     "packages": "jspm_packages"
   },
