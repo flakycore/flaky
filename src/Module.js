@@ -140,10 +140,13 @@ export class Module {
 
       let filterFactory = Utils.createInjectedFunction((...dependencies) => {
         let filterInstance = new filter(...dependencies);
+        let filterFn;
 
-        return (...args)=> {
+        filterFn = (...args)=> {
           return filterInstance.run(...args);
-        }
+        };
+
+        return filterFn;
       }, filter.$inject);
 
       this._angularModule.filter(Utils.normalizeFilterName(filter.name), filterFactory);
@@ -157,7 +160,7 @@ export class Module {
     for (let [interceptor, type] of this._interceptors) {
       let availTypes = ['request', 'requestError', 'response', 'responseError'];
 
-      if(availTypes.indexOf(type) === -1) {
+      if (availTypes.indexOf(type) === -1) {
         throw new Error('Interceptor type "' + type + '" is invalid');
       }
 
