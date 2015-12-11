@@ -35,7 +35,6 @@ export class Application extends Module {
     }).hashPrefix(this._urlPrefix);
 
     for (let [interceptor, type] of this._interceptors) {
-      console.log(interceptor.name);
       httpProvider.interceptors.push(interceptor.name);
     }
   }
