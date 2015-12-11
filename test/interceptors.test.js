@@ -30,7 +30,7 @@ describe('Interceptors', () => {
       [FooResponseErrorInterceptor, 'responseError'],
       [FooRequestErrorInterceptor, 'requestError']
     ];
-    expect(flaky.module.interceptors).to.have.length(4);
+    expect(flaky.module.interceptors).to.have.length(expectedArray.length);
     expect(flaky.module.interceptors).to.deep.include.members(expectedArray);
   });
 
