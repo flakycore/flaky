@@ -10,7 +10,7 @@ import {FooFilter, FooFilterService} from './fixtures/FooFilter';
 import {FooDirective} from './fixtures/FooDirective';
 import {FooResponseInterceptor, FooRequestInterceptor,
   FooResponseErrorInterceptor, FooRequestErrorInterceptor,
-  FooInterceptorService} from './fixtures/FooInterceptor';
+  FooInterceptorService} from './fixtures/FooInterceptors';
 
 let app = new Application('flakyApp');
 
