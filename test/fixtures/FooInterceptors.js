@@ -1,5 +1,6 @@
 import {inject, interceptor, service} from 'src/decorators';
 
+@inject('$fooInterceptorService')
 export class FooInterceptor {
 
   constructor(fooInterceptorService) {
@@ -12,25 +13,22 @@ export class FooInterceptor {
   }
 }
 
-@inject('$fooInterceptorService')
+
 @interceptor('response')
 export class FooResponseInterceptor extends FooInterceptor{
 }
 
 
-@inject('$fooInterceptorService')
 @interceptor('request')
 export class FooRequestInterceptor extends FooInterceptor{
 }
 
 
-@inject('$fooInterceptorService')
 @interceptor('responseError')
 export class FooResponseErrorInterceptor extends FooInterceptor{
 }
 
 
-@inject('$fooInterceptorService')
 @interceptor('requestError')
 export class FooRequestErrorInterceptor extends FooInterceptor{
 }
