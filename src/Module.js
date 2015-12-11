@@ -135,7 +135,7 @@ export class Module {
   loadFilters() {
     for (let filter of this._filters) {
       if (!Utils.isFunction(filter.prototype.run)) {
-        throw new Error('Filter "' + filter.name + '" has not a run() function');
+        throw new Error('Filter "' + filter.name + '" has no a run() function');
       }
 
       let filterFactory = Utils.createInjectedFunction((...dependencies) => {
@@ -158,11 +158,11 @@ export class Module {
       let availTypes = ['request', 'requestError', 'response', 'responseError'];
 
       if(availTypes.indexOf(type) === -1) {
-        throw new Error('Interceptor type "' + type + '" invalid');
+        throw new Error('Interceptor type "' + type + '" is invalid');
       }
 
       if (!Utils.isFunction(interceptor.prototype.run)) {
-        throw new Error('Interceptor "' + filter.name + '" has not a run() function');
+        throw new Error('Interceptor "' + filter.name + '" has no a run() function');
       }
 
       let interceptorFactory = Utils.createInjectedFunction((...dependencies) => {
@@ -256,7 +256,7 @@ export class Module {
     }
 
     if (name === false) {
-      throw new Error('Not set route name');
+      throw new Error('Route name is not set');
     }
 
     this._routes.push([name, config]);
