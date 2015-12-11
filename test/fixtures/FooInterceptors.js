@@ -5,7 +5,9 @@ export class FooInterceptor {
 
   constructor(fooInterceptorService) {
     this.fooInterceptorService = fooInterceptorService;
-    this.objToExtend = {fromService: this.fooInterceptorService.getField()};
+    this.objToExtend = {
+      fromService: this.fooInterceptorService.getField()
+    };
   }
 
   run(config) {
