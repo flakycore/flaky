@@ -5,7 +5,7 @@
 # Установка
 
 ``` console
-jspm install github:vlobchuk/flaky
+ jspm install flaky=github:flakycore/flaky@master
 ```
 
 # С чего начать?
