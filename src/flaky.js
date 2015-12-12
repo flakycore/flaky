@@ -1,5 +1,4 @@
 import angular from 'angular';
-import {Application} from './Application';
 import {Module} from './Module';
 
 /**
