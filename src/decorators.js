@@ -4,15 +4,10 @@ import {flaky} from './flaky';
 
 /**
  * Add controller
- * @param config
  * @returns {decorator}
  */
-export function controller(config = false) {
+export function controller() {
   return function decorator(target) {
-    if (config !== false) {
-      flaky.module.addRoute(false, config, controller.name);
-    }
-
     flaky.module.addController(target);
   };
 }
@@ -73,51 +68,29 @@ export function interceptor(type) {
 }
 
 /**
+ * Add configuration class for configure AngularJS provider
+ * @returns {decorator}
+ */
+export function configuration() {
+  return function decorator(target) {
+    flaky.module.addConfiguration(new target());
+  }
+}
+
+/**
  * Inject dependencies for services, directives, controllers, filters
  * @param dependencies
  * @returns {decorator}
  */
 export function inject(...dependencies) {
   return function decorator(target) {
-    abstractInject('$inject', target, dependencies);
+    let targetDependencies = [];
+    let extendsProto = Object.getPrototypeOf(target);
+
+    if (Utils.isArray(extendsProto.$inject)) {
+      targetDependencies = extendsProto.$inject;
+    }
+
+    target.$inject = targetDependencies.concat(dependencies);
   };
-}
-
-/**
- * Inject for module method config
- * @param dependencies
- * @returns {decorator}
- */
-export function injectConfig(...dependencies) {
-  return function decorator(target) {
-    abstractInject('$injectConfig', target, dependencies);
-  };
-}
-
-/**
- * Inject for module method run
- * @param dependencies
- * @returns {decorator}
- */
-export function injectRun(...dependencies) {
-  return function decorator(target) {
-    abstractInject('$injectRun', target, dependencies);
-  };
-}
-
-/**
- * Add specific inject property to target
- * @param name
- * @param target
- * @param dependencies
- */
-function abstractInject(name, target, dependencies) {
-  let targetDependencies = [];
-  let extendsProto = Object.getPrototypeOf(target);
-
-  if (Utils.isArray(extendsProto[name])) {
-    targetDependencies = extendsProto[name];
-  }
-
-  target[name] = targetDependencies.concat(dependencies);
 }
