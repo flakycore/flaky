@@ -32,4 +32,8 @@ describe('Utils', () => {
   it('normalizeInterceptorName should be equals "$fooInterceptor"', () => {
     expect(Utils.normalizeInterceptorName('FooInterceptor')).to.be.equals('$fooInterceptor');
   });
+
+  it('normalizeConfigurationName should be equals "cfg.foo"', () => {
+    expect(Utils.normalizeConfigurationName('FooConfiguration')).to.be.equals('cfg.foo');
+  });
 });

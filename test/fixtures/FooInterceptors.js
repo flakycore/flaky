@@ -47,6 +47,3 @@ export class FooInterceptorService {
     return this.field;
   }
 }
-
-
-

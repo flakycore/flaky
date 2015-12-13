@@ -1,5 +1,8 @@
 import angular from 'angular';
 
+const LOWER = 0;
+const UPPER = 1;
+
 export class Utils {
 
   static isDefined(value) {
@@ -19,10 +22,10 @@ export class Utils {
     let normalizeName = patternRegexp !== false ? name.replace(new RegExp(patternRegexp), '') : name;
 
     switch (type) {
-    case 'lo':
+    case LOWER:
       firstChar = firstChar.toLowerCase();
       break;
-    case 'up':
+    case UPPER:
       firstChar = firstChar.toUpperCase();
       break;
     }
@@ -31,39 +34,43 @@ export class Utils {
   }
 
   static normalizeInterceptorName(name) {
-    return '$' + Utils.normalizeByPatternName(name, false, 'lo');
+    return '$' + Utils.normalizeByPatternName(name, false, LOWER);
   }
 
   static normalizeComponentName(name) {
-    return Utils.normalizeByPatternName(name, 'Component', 'lo');
+    return Utils.normalizeByPatternName(name, 'Component', LOWER);
   }
 
   static normalizeDirectiveName(name) {
-    return Utils.normalizeByPatternName(name, 'Directive', 'lo');
+    return Utils.normalizeByPatternName(name, 'Directive', LOWER);
   }
 
   static normalizeControllerAsName(name) {
-    return 'ctrl' + Utils.normalizeByPatternName(name, 'Controller', 'up');
+    return 'ctrl' + Utils.normalizeByPatternName(name, 'Controller', UPPER);
   }
 
   static normalizeDirectiveAsName(name) {
-    return 'dt' + Utils.normalizeByPatternName(name, 'Directive', 'up');
+    return 'dt' + Utils.normalizeByPatternName(name, 'Directive', UPPER);
   }
 
   static normalizeComponentAsName(name) {
-    return 'cp' + Utils.normalizeByPatternName(name, 'Component', 'up');
+    return 'cp' + Utils.normalizeByPatternName(name, 'Component', UPPER);
   }
 
   static normalizeRouteName(name) {
-    return Utils.normalizeByPatternName(name, 'Controller', 'lo');
+    return Utils.normalizeByPatternName(name, 'Controller', LOWER);
   }
 
   static normalizeServiceName(name) {
-    return '$' + Utils.normalizeByPatternName(name, false, 'lo');
+    return '$' + Utils.normalizeByPatternName(name, false, LOWER);
   }
 
   static normalizeFilterName(name) {
-    return Utils.normalizeByPatternName(name, 'Filter', 'lo');
+    return Utils.normalizeByPatternName(name, 'Filter', LOWER);
+  }
+
+  static normalizeConfigurationName(name) {
+    return 'cfg.' + Utils.normalizeByPatternName(name, 'Configuration', LOWER);
   }
 
   static createInjectedFunction(callback, inject) {

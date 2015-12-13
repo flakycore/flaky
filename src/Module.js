@@ -1,8 +1,6 @@
 import angular from 'angular';
 import {Utils} from './core/Utils';
-import {injectConfig} from './decorators'
 
-@injectConfig('$stateProvider', '$httpProvider')
 export class Module {
 
   constructor(name) {
@@ -10,27 +8,16 @@ export class Module {
     this._angularModule = null;
     this._vendors = [];
     this._controllers = [];
-    this._routes = [];
     this._services = [];
     this._components = [];
     this._directives = [];
     this._filters = [];
     this._interceptors = [];
-    this._preparedInterceptorNames = [];
+    this._configurations = [];
     this._modules = [];
   }
 
   run() {
-  }
-
-  config(stateProvider, httpProvider) {
-    for (let [name, config] of this._routes) {
-      stateProvider.state(name, config);
-    }
-
-    for (let interceptorServiceName of this._preparedInterceptorNames) {
-      httpProvider.interceptors.push(interceptorServiceName);
-    }
   }
 
   load() {
@@ -40,9 +27,13 @@ export class Module {
       modules.push(module.load());
     }
 
-    this._angularModule = angular.module(this._name, this._vendors.concat(modules));
+    let configModuleNames = this.loadConfigurations();
 
-    this.initRunAndConfig();
+    modules = this._vendors.concat(configModuleNames.concat(modules));
+
+    this._angularModule = angular.module(this._name, modules);
+
+    this.initRun();
 
     this.loadControllers();
     this.loadComponents();
@@ -57,29 +48,18 @@ export class Module {
   /**
    * Initialization application methods run and config (analog angular.module functions)
    */
-  initRunAndConfig() {
-    let injectConfig = [];
-    let injectRun = [];
+  initRun() {
+    let inject = [];
 
-    if (Utils.isArray(this.constructor.$injectConfig)) {
-      injectConfig = injectConfig.concat(this.constructor.$injectConfig);
+    if (Utils.isArray(this.constructor.$inject)) {
+      inject = inject.concat(this.constructor.$inject);
     }
-
-    if (Utils.isArray(this.constructor.$injectRun)) {
-      injectRun = injectRun.concat(this.constructor.$injectRun);
-    }
-
-    this._angularModule.config(Utils.createInjectedFunction((...dependencies) => {
-      if (Utils.isFunction(this.config)) {
-        this.config.apply(this, dependencies);
-      }
-    }, injectConfig));
 
     this._angularModule.run(Utils.createInjectedFunction((...dependencies) => {
       if (Utils.isFunction(this.run)) {
-        this.run.apply(this, dependencies);
+        this.run(...dependencies);
       }
-    }, injectRun));
+    }, inject));
   }
 
   /**
@@ -185,10 +165,27 @@ export class Module {
         return interceptorProxy;
       }, interceptor.$inject);
 
-      this._preparedInterceptorNames.push(interceptorName);
-
       this._angularModule.factory(interceptorName, interceptorFactory);
     }
+  }
+
+  /**
+   * Initialization configurations
+   * @returns {Array}
+   */
+  loadConfigurations() {
+    let result = [];
+    for (let configuration of this._configurations) {
+      let configFn = Utils.createInjectedFunction((...dependencies) => {
+        configuration.run(...dependencies);
+      }, configuration.constructor.$inject || []);
+
+      let angularModule = angular.module(Utils.normalizeConfigurationName(configuration.constructor.name), [])
+        .config(configFn);
+
+      result.push(angularModule.name);
+    }
+    return result;
   }
 
   /**
@@ -244,38 +241,6 @@ export class Module {
   }
 
   /**
-   * Add route
-   * @param name
-   * @param config
-   * @param controller
-   * @returns {Module}
-   */
-  addRoute(name, config, controller = false) {
-    if (controller !== false) {
-      if (!Utils.isFunction(controller)) {
-
-        if (name === false) {
-          name = Utils.normalizeRouteName(controller);
-        }
-
-        controller = controller + ' as ' + Utils.normalizeControllerAsName(controller);
-      }
-
-      config = angular.extend({
-        controller: controller
-      }, config);
-    }
-
-    if (name === false) {
-      throw new Error('Route name is not set');
-    }
-
-    this._routes.push([name, config]);
-
-    return this;
-  }
-
-  /**
    * Add interceptor
    * @param interceptor
    * @param type
@@ -283,6 +248,16 @@ export class Module {
    */
   addInterceptor(interceptor, type) {
     this._interceptors.push([interceptor, type]);
+    return this;
+  }
+
+  /**
+   * Add configurti
+   * @param configuration
+   * @returns {Module}
+     */
+  addConfiguration(configuration) {
+    this._configurations.push(configuration);
     return this;
   }
 
@@ -308,10 +283,6 @@ export class Module {
 
   get name() {
     return this._name;
-  }
-
-  get routes() {
-    return this._routes;
   }
 
   get controllers() {
