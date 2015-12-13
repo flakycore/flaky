@@ -16,7 +16,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'jspm_packages/npm/babel-core@5.8.34/browser-polyfill.js'
+
     ],
 
     // configuration for karma-jspm
