@@ -3,10 +3,15 @@ language: node_js
 node_js:
   - '5.1.0'
 
+env:
+  global:
+  - secure: M9kd8jp+ANn6pLKwS1S8w+6Gvv5ZttK53Nr7i6R3az47jir9hBSNGgNY0a0Hcs6DyHsEwXKziCOZnj7H7sIi+DpX89TsJ0YVS1tEq+tkVUWVp9MpAcR0lvuhXHzubYENQS0PK3tzi1XJ7AZn8d2JXvCx6eUov5/p9kexWXOzqmnDZbfoyUNxsyu/6X878i/QzfyYesBZduS7cwXAcBkb5jmr1Z1+i8gSyhQWxEWkq8mcvTAKghoXMBmjNTEy53srRyB6S2kWlEWPMkaRnKAekesjgyhpR0KpvT+xwk8l6+nne0sPoLh5pDYC8DxW6AEKtd3Eg29N9RKwc4x0yR+VdsLSSBINUS8QbCqo91tdUv26oqFhOl4ECyWFCBEjSorFZcVu5OrevFWLCUaAru06E96nMcMb/HjVLmMSz0pOVevRzbJpkq/Si0u9EWO2BNrgRgD75lWpl0CqFwjyIWYMqgjFjNmvOw23iDMd9F7zrIDkjcsjzjdQZXj2zXkstvaRG3dOop9N8mQJT+m2ohjoeZUaiatqwePyGc+19dMjsTEFH6RU7s4RcXPrRV1sTTJp/kfd0X6bqVUHJHjaQf71agNKCHS+f/Cfmji1zfjqpwAe3IGWhF/8YO9CH7rtYRZ5qBEkxEZBPqvWw2dbaODtLUemUbUBXJ10P/iqYxL6P+A=
+
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - npm install -g jspm
+  - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
   - jspm install
 
 script:
