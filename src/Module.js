@@ -176,6 +176,10 @@ export class Module {
   loadConfigurations() {
     let result = [];
     for (let configuration of this._configurations) {
+      if (!Utils.isFunction(configuration.run)) {
+        throw new Error('Configuration "' + filter.name + '" has no a run() function');
+      }
+
       let configFn = Utils.createInjectedFunction((...dependencies) => {
         configuration.run(...dependencies);
       }, configuration.constructor.$inject || []);
@@ -307,6 +311,10 @@ export class Module {
 
   get interceptors() {
     return this._interceptors;
+  }
+
+  get configurations() {
+    return this._configurations;
   }
 
   get modules() {

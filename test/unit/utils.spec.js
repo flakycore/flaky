@@ -1,6 +1,35 @@
-import {Utils} from 'src/core/Utils';
+import {Utils, LOWER, UPPER} from 'src/core/Utils';
 
 describe('Utils', () => {
+  it('isDefined should be equals "false"', () => {
+    expect(Utils.isDefined(undefined)).to.be.not.ok;
+  });
+
+  it('isDefined should be equals "true"', () => {
+    let b = 1;
+    expect(Utils.isDefined(b)).to.be.ok;
+  });
+
+  it('isArray should be equals "false"', () => {
+    expect(Utils.isArray(3)).to.be.not.ok;
+  });
+
+  it('isArray should be equals "true"', () => {
+    expect(Utils.isArray([])).to.be.ok;
+  });
+
+  it('normalizeByPatternName should be equals "Foo"', () => {
+    expect(Utils.normalizeByPatternName('FooTestNormalize', 'TestNormalize', false)).to.be.equals('Foo');
+  });
+
+  it('normalizeByPatternName should be equals "foo"', () => {
+    expect(Utils.normalizeByPatternName('FooTestNormalize', 'TestNormalize', LOWER)).to.be.equals('foo');
+  });
+
+  it('normalizeByPatternName should be equals "Foo"', () => {
+    expect(Utils.normalizeByPatternName('fooTestNormalize', 'TestNormalize', UPPER)).to.be.equals('Foo');
+  });
+
   it('normalizeComponentName should be equals "foo"', () => {
     expect(Utils.normalizeComponentName('FooComponent')).to.be.equals('foo');
   });
@@ -35,5 +64,11 @@ describe('Utils', () => {
 
   it('normalizeConfigurationName should be equals "cfg.foo"', () => {
     expect(Utils.normalizeConfigurationName('FooConfiguration')).to.be.equals('cfg.foo');
+  });
+
+  it('createInjectedFunction should be exists $inject', () => {
+    let fn = Utils.createInjectedFunction(() => {}, ['foo', 'bar']);
+    expect(fn.$inject).to.not.be.undefined;
+    assert.deepEqual(fn.$inject, ['foo', 'bar']);
   });
 });

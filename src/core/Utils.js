@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-const LOWER = 0;
-const UPPER = 1;
+export const LOWER = 0;
+export const UPPER = 1;
 
 export class Utils {
 

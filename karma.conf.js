@@ -23,7 +23,7 @@ module.exports = function(config) {
     jspm: {
       useBundles: true,
       config: 'config.js',
-      loadFiles: ['test/app.js', 'test/**/*.js'],
+      loadFiles: ['test/unit/**/*.js', 'test/integration/app.js', 'test/integration/**/*.js'],
       serveFiles: ['src/**/*.js'],
       packages: 'jspm_packages'
     },
