@@ -2,7 +2,7 @@ import angular from 'angular';
 import {Module} from './Module';
 
 /**
- * Singleton instance
+ * Flaky singleton instance
  * @type {Flaky}
  */
 let instance = null;
