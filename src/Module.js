@@ -93,9 +93,14 @@ export class Module {
    */
   loadDirectives() {
     for (let [directive, options] of this._directives) {
+      directive.prototype._assignController = function(...args) {
+        directive.prototype._controllers = args[3];
+      }
+
       let directiveOptions = angular.extend({
         restrict: 'A',
         bindToController: true,
+        link: directive.prototype._assignController,
         controller: directive.name + ' as ' + Utils.normalizeDirectiveAsName(directive.name)
       }, options);
 
