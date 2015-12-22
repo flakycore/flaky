@@ -93,18 +93,34 @@ export class Module {
    */
   loadDirectives() {
     for (let [directive, options] of this._directives) {
-      directive.prototype._assignController = function(...args) {
-        directive.prototype._controllers = args[3];
+      let normalizeDirectiveName = Utils.normalizeDirectiveName(directive.name);
+
+      if (Utils.isDefined(options.require)) {
+        if (!Utils.isArray(options.require)) {
+          options.require = [options.require];
+        }
+        options.require.unshift('?' + normalizeDirectiveName);
       }
 
-      let directiveOptions = angular.extend({
+      let defaultOptions = {
         restrict: 'A',
         bindToController: true,
-        link: directive.prototype._assignController,
-        controller: directive.name + ' as ' + Utils.normalizeDirectiveAsName(directive.name)
-      }, options);
+        link: function(...args) {
+          if (Utils.isArray(args[3])) {
+            let directiveInstance = args[3][0];
+            let controllers = args[3].splice(1, args[3].length);
 
-      this._angularModule.directive(Utils.normalizeDirectiveName(directive.name), () => {
+            if (Utils.isFunction(directiveInstance.run)) {
+              directiveInstance.run(controllers);
+            }
+          }
+        },
+        controller: directive.name + ' as ' + Utils.normalizeDirectiveAsName(directive.name)
+      };
+
+      let directiveOptions = angular.extend(defaultOptions, options);
+
+      this._angularModule.directive(normalizeDirectiveName, () => {
         return directiveOptions;
       });
     }
@@ -264,7 +280,7 @@ export class Module {
    * Add configurti
    * @param configuration
    * @returns {Module}
-     */
+   */
   addConfiguration(configuration) {
     this._configurations.push(configuration);
     return this;
