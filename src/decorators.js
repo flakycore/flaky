@@ -1,3 +1,4 @@
+/* */
 import angular from 'angular';
 import {Utils} from './core/Utils';
 import {flaky} from './flaky';
@@ -85,12 +86,16 @@ export function configuration() {
 export function inject(...dependencies) {
   return function decorator(target) {
     let targetDependencies = [];
-    let extendsProto = Object.getPrototypeOf(target);
 
-    if (Utils.isArray(extendsProto.$inject)) {
-      targetDependencies = extendsProto.$inject;
+    if (Utils.isArray(target.$inject)) {
+      targetDependencies = target.$inject;
     }
 
-    target.$inject = targetDependencies.concat(dependencies);
+    Object.defineProperty(target, '$inject', {
+      enumerable: false,
+      configurable: false,
+      writable: false,
+      value: targetDependencies.concat(dependencies)
+    });
   };
 }
